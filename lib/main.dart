@@ -34,11 +34,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double _altura = 0;
-  double _peso = 0;
+  double _altura = 1.50;
+  double _peso = 65;
   double _imc = 0;
+
+  double _minPeso = 40;
+  double _maxPeso = 230;
+  double _minAltura = 1.50;
+  double _maxAltura = 2.10;
+  int pesoValues = 5;
+  int alturaValues = 5;
   var _displayText = {"textColor": Colors.black12, "text": ""};
 
+  void pesoNumbers(){
+    int formula = _maxPeso.toInt() - _minPeso.toInt() * 10;
+    setState(() => {
+      if(formula * 10 < 1 || formula * 10 == null){
+        pesoValues = 200
+      }else{
+        pesoValues = formula
+      }
+    });
+  }
+  void alturaNumbers(){
+    int formula = (_maxAltura*100 - _minAltura * 100).toInt();
+    setState(() => {
+      if(formula < 1 || formula == null){
+        alturaValues = 40
+      }else{
+        alturaValues = formula
+      }
+    });
+  }
   static validateNumber(double number) {
     if (number.isNegative) {
       number = number.abs();
@@ -59,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setImcText(_imc);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,24 +103,33 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'Aqui você digita seu PESO (Kg)',
             ),
-            TextField(
-              decoration: InputDecoration(hintText: "ex: 68.9"),
-              onChanged: (number) {
-                var novoNum = validateNumber(double.parse(number));
+            Slider(
+              onChangeStart: (value) => pesoNumbers(),
+              value: _peso,
+              onChanged: (newPeso){
                 setState(() {
-                  _peso = novoNum;
+                  _peso = newPeso;
                 });
               },
+              min: _minPeso,
+              max: _maxPeso,
+                label: _peso.toStringAsFixed(2)+" Kg",
+              divisions: pesoValues,
             ),
+            Text( _peso.toStringAsFixed(2)+" Kg"),
             Text("Aqui a sua altura (m)"),
-            TextField(
-              decoration: InputDecoration(hintText: "ex: 1.69"),
-              onChanged: (number) {
-                var novoNum = validateNumber(double.parse(number));
+            Slider(
+              onChangeStart: (value) => alturaNumbers(),
+              value: _altura,
+              onChanged: (newAltura){
                 setState(() {
-                  _altura = novoNum;
+                  _altura = newAltura;
                 });
               },
+              min: _minAltura,
+              max: _maxAltura,
+              label: _altura.toStringAsFixed(2)+" m",
+              divisions:alturaValues,
             ),
               Text(
                 'IMC: $_imc',
