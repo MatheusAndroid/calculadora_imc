@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double _imc = 0;
 
   double _minPeso = 40;
-  double _maxPeso = 230;
+  double _maxPeso = 150;
   double _minAltura = 1.50;
   double _maxAltura = 2.10;
   int pesoValues = 5;
@@ -100,11 +100,33 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
 
-            Text(
-              'Aqui você digita seu PESO (Kg)',
-            ),
+            Container(
+              width: double.infinity,
+              child: Text(
+                'Arraste até o seu PESO (Kg)',textAlign: TextAlign.start,
+              ),
+            ),Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(child: Text("Peso menos que $_minPeso"), onPressed: () {
+                    if(_minPeso >= 20){
+                      setState(() {
+                        _minPeso = _minPeso - 5;
+                      });
+                    }
+                  },),
+                  TextButton(child: Text("Peso mais que $_maxPeso"), onPressed: (){
+                    if(_maxPeso <= 250){
+                      setState(() {
+                        _maxPeso = _maxPeso + 20;
+                      });
+                    }
+                  },),
+                    ],
+              ),
             Slider(
               onChangeStart: (value) => pesoNumbers(),
+              onChangeEnd: (value) => _calcularImc(),
               value: _peso,
               onChanged: (newPeso){
                 setState(() {
@@ -113,13 +135,17 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               min: _minPeso,
               max: _maxPeso,
-                label: _peso.toStringAsFixed(2)+" Kg",
+              label: _peso.toStringAsFixed(2)+" Kg",
               divisions: pesoValues,
             ),
-            Text( _peso.toStringAsFixed(2)+" Kg"),
-            Text("Aqui a sua altura (m)"),
+
+            Container(
+              width: double.infinity,
+              child: Text("Sua altura (m)", textAlign: TextAlign.left),
+            ),
             Slider(
               onChangeStart: (value) => alturaNumbers(),
+              onChangeEnd: (value) => _calcularImc(),
               value: _altura,
               onChanged: (newAltura){
                 setState(() {
@@ -131,6 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
               label: _altura.toStringAsFixed(2)+" m",
               divisions:alturaValues,
             ),
+              Text( _peso.toStringAsFixed(2)+" Kg - "+_altura.toStringAsFixed(2)+" m",style: TextStyle(fontSize: 24.0),),
               Text(
                 'IMC: $_imc',
                 style: Theme.of(context).textTheme.headline4,
