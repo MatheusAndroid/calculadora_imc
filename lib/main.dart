@@ -169,11 +169,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         )),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _calcularImc,
-        tooltip: 'Calcular IMC',
-        child: Icon(Icons.accessibility_new_sharp),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+     // floatingActionButton: FloatingActionButton(
+       // onPressed: _calcularImc,
+       // tooltip: 'Calcular IMC',
+        //child: Icon(Icons.accessibility_new_sharp),
+      //), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
