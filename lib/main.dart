@@ -109,17 +109,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(child: Text("Peso menos que $_minPeso"), onPressed: () {
-                    if(_minPeso >= 20){
+                    if(_minPeso > 20){
                       setState(() {
-                        _minPeso = _minPeso - 5;
+                        _minPeso = _minPeso - 10;
+                        _maxPeso = _maxPeso - 10;
+                        _peso = _peso - 10;
                       });
+                      _calcularImc();
                     }
                   },),
                   TextButton(child: Text("Peso mais que $_maxPeso"), onPressed: (){
                     if(_maxPeso <= 250){
                       setState(() {
                         _maxPeso = _maxPeso + 20;
+                        _minPeso = _minPeso + 20;
+                        _peso = _peso + 20;
                       });
+                      _calcularImc();
                     }
                   },),
                     ],
